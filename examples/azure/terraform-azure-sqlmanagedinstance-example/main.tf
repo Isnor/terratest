@@ -10,7 +10,7 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 provider "azurerm" {
-  version = "~>2.93.0"
+  version = "~>3.13.0"
   features {}
 }
 
@@ -91,18 +91,38 @@ resource "azurerm_subnet_network_security_group_association" "sqlmi_sb_assoc" {
   network_security_group_id = azurerm_network_security_group.sqlmi_nt_sec_grp.id
 }
 
-## DEPLOY managed sql instance  ## This depends on vnet ##
-# resource "azurerm_mssql_managed_instance" "sqlmi_mi" {
-#  name                = "sqlmi${var.postfix}"
-#  resource_group_name = azurerm_resource_group.sqlmi_rg.name
-#  location            = azurerm_resource_group.sqlmi_rg.location
-#
-#  license_type       = var.sqlmi_license_type
-#  sku_name           = var.sku_name
-#  storage_size_in_gb = var.storage_size
-#  subnet_id          = azurerm_subnet.sqlmi_sub.id
-#  vcores             = var.cores
-#
-#  administrator_login          = var.admin_login
-#  administrator_login_password = var.admin_login_password
-#}
+resource "azurerm_route_table" "sqlmi_rt" {
+  name                          = "routetable-${var.postfix}"
+  location                      = azurerm_resource_group.sqlmi_rg.location
+  resource_group_name           = azurerm_resource_group.sqlmi_rg.name
+  disable_bgp_route_propagation = false
+  depends_on = [
+    azurerm_subnet.sqlmi_sub,
+  ]
+}
+
+resource "azurerm_subnet_route_table_association" "sqlmi_sb_rt_assoc" {
+  subnet_id      = azurerm_subnet.sqlmi_sub.id
+  route_table_id = azurerm_route_table.sqlmi_rt.id
+}
+
+# DEPLOY managed sql instance  ## This depends on vnet ##
+ resource "azurerm_mssql_managed_instance" "sqlmi_mi" {
+  name                = "sqlmi${var.postfix}"
+  resource_group_name = azurerm_resource_group.sqlmi_rg.name
+  location            = azurerm_resource_group.sqlmi_rg.location
+
+  license_type       = var.sqlmi_license_type
+  sku_name           = var.sku_name
+  storage_size_in_gb = var.storage_size
+  subnet_id          = azurerm_subnet.sqlmi_sub.id
+  vcores             = var.cores
+
+  administrator_login          = var.admin_login
+  administrator_login_password = "thisIsDog11"
+}
+
+resource "azurerm_mssql_managed_database" "sqlmi_db" {
+  name                = var.sqlmi_db_name
+  managed_instance_id = azurerm_mssql_managed_instance.sqlmi_mi.id
+}
