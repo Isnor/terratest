@@ -107,7 +107,7 @@ resource "azurerm_subnet_route_table_association" "sqlmi_sb_rt_assoc" {
 }
 
 # DEPLOY managed sql instance  ## This depends on vnet ##
- resource "azurerm_mssql_managed_instance" "sqlmi_mi" {
+resource "azurerm_mssql_managed_instance" "sqlmi_mi" {
   name                = "sqlmi${var.postfix}"
   resource_group_name = azurerm_resource_group.sqlmi_rg.name
   location            = azurerm_resource_group.sqlmi_rg.location
