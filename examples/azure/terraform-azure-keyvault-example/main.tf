@@ -6,7 +6,6 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 provider "azurerm" {
-  version = "~>3.0"
   features {
     key_vault {
       purge_soft_delete_on_destroy = false
@@ -24,6 +23,12 @@ terraform {
   # 0.12.26 as the minimum version, as that version added support for required_providers with source URLs, making it
   # forwards compatible with 0.13.x code.
   required_version = ">= 0.12.26"
+  required_providers {
+    azurerm = {
+      version = "~>3.0"
+      source  = "hashicorp/azurerm"
+    }
+  }
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
