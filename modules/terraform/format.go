@@ -76,6 +76,9 @@ func FormatArgs(options *Options, args ...string) []string {
 		terraformArgs = append(terraformArgs, FormatTerraformLockAsArgs(options.Lock, options.LockTimeout)...)
 	}
 
+	// append the additional flags to the command
+	terraformArgs = append(terraformArgs, options.ExtraCommandFlags...)
+
 	if planFileSupported {
 		// The plan file arg should be last in the terraformArgs slice. Some commands use it as an input (e.g. show, apply)
 		terraformArgs = append(terraformArgs, FormatTerraformPlanFileAsArg(commandType, options.PlanFilePath)...)

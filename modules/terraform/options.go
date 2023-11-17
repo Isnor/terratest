@@ -71,6 +71,9 @@ type Options struct {
 	PlanFilePath             string                 // The path to output a plan file to (for the plan command) or read one from (for the apply command)
 	PluginDir                string                 // The path of downloaded plugins to pass to the terraform init command (-plugin-dir)
 	SetVarsAfterVarFiles     bool                   // Pass -var options after -var-file options to Terraform commands
+	ExtraCommandFlags        []string               // Additional terraform flags that aren't explicitly supported as fields of `Options` (yet). These are appended as-is to the calculated terraform command
+
+	InitArgs
 }
 
 // Clone makes a deep copy of most fields on the Options object and returns it.

@@ -1,6 +1,7 @@
 package terraform
 
 import (
+	"fmt"
 	"path/filepath"
 	"testing"
 	"time"
@@ -63,6 +64,61 @@ func TestApplyWithErrorWithRetry(t *testing.T) {
 
 	require.Contains(t, out, "This is the first run, exiting with an error")
 }
+
+func TestApplyWithExtraArgsNoError(t *testing.T) {
+	testFolder, err := files.CopyTerraformFolderToTemp("../../test/fixtures/terraform-no-error", t.Name())
+	require.NoError(t, err)
+
+	type extraFlagsTest struct {
+		name         string
+		extraFlags   []string
+		expectations func(tt *testing.T, output string)
+	}
+	tests := []extraFlagsTest{
+		{
+			name:       "refresh flag success",
+			extraFlags: []string{"-refresh=false"},
+			expectations: func(tt *testing.T, output string) {
+				// `refresh` doesn't actually do anything and isn't documented in `terraform apply -help`
+				require.Contains(tt, output, "Hello, World")
+
+				// Check that NoColor correctly doesn't output the colour escape codes which look like [0m,[1m or [32m
+				require.NotRegexp(tt, `\[\d*m`, output, "Output should not contain color escape codes")
+			},
+		},
+		{
+			name:       "state flag success",
+			extraFlags: []string{"-state=myteststate.tfstate"},
+			expectations: func(tt *testing.T, output string) {
+				require.Contains(tt, output, "Hello, World")
+				require.NotRegexp(tt, `\[\d*m`, output, "Output should not contain color escape codes")
+				require.FileExists(tt, fmt.Sprintf("%s/myteststate.tfstate", testFolder))
+				// Check that NoColor correctly doesn't output the colour escape codes which look like [0m,[1m or [32m
+			},
+		},
+		{
+			name:       "state-out flag success",
+			extraFlags: []string{"-state-out=old-state.tfstate"},
+			expectations: func(tt *testing.T, output string) {
+				require.Contains(tt, output, "Hello, World")
+				require.NotRegexp(tt, `\[\d*m`, output, "Output should not contain color escape codes")
+				require.FileExists(tt, fmt.Sprintf("%s/old-state.tfstate", testFolder))
+				// Check that NoColor correctly doesn't output the colour escape codes which look like [0m,[1m or [32m
+			},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(subtest *testing.T) {
+			test.expectations(subtest, InitAndApply(subtest, WithDefaultRetryableErrors(subtest, &Options{
+				TerraformDir:      testFolder,
+				NoColor:           true,
+				ExtraCommandFlags: test.extraFlags,
+			})))
+		})
+	}
+}
+
 func TestTgApplyAllTgError(t *testing.T) {
 	t.Parallel()
 
