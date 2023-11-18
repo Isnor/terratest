@@ -25,7 +25,7 @@ func Init(t testing.TestingT, options *Options) string {
 
 // InitE calls terraform init and return stdout/stderr.
 func InitE(t testing.TestingT, options *Options) (string, error) {
-	args := []string{"init", fmt.Sprintf("-upgrade=%t", options.Upgrade)}
+	args := []string{"init", fmt.Sprintf("-upgrade=%t", options.Upgrade||options.InitArgs.Upgrade)}
 
 	// all of the deprecated arguments from Options that were passed to Init need to be declared here
 	// and retrieved from either Options or Options.InitArgs below
@@ -60,3 +60,7 @@ func InitE(t testing.TestingT, options *Options) (string, error) {
 	args = append(args, FormatTerraformPluginDirAsArgs(pluginDir)...)
 	return RunTerraformCommandE(t, options, args...)
 }
+
+// each command has a struct with fields for each argument it supports, which we get from terraform <cmd> -help
+// in the "CmdE" function for each command, we look at the fields that are set and use the tag of the field to
+// build the arg list string
