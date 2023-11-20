@@ -34,13 +34,22 @@ func TestMarshalTfArgs(t *testing.T) {
 		},
 		{
 			name:            "backend config set",
-			expectedCommand: "-backend-config=foo=bar -backend-config=prefix.foo=prefix.bar",
+			expectedCommand: "-backend-config=foo=bar -backend-config=prefix.foo=prefix.bar -backend-config=zoobar={\"mymaparg\" = null}",
 			args: &terraform.ExampleCommandArgs{
 				BackendConfig: map[string]any{
-					"foo": "bar",
+					"foo":        "bar",
 					"prefix.foo": "prefix.bar",
+					"zoobar":     map[string]any{"mymaparg": nil},
 				},
 				Refresh: true,
+			},
+		},
+		{
+			name:            "var file set",
+			expectedCommand: "-var-file foo -var-file bar",
+			args: &terraform.ExampleCommandArgs{
+				VarFiles: []string{"foo", "bar"},
+				Refresh:  true,
 			},
 		},
 	} {

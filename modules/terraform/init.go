@@ -25,7 +25,7 @@ func Init(t testing.TestingT, options *Options) string {
 
 // InitE calls terraform init and return stdout/stderr.
 func InitE(t testing.TestingT, options *Options) (string, error) {
-	args := []string{"init", fmt.Sprintf("-upgrade=%t", options.Upgrade||options.InitArgs.Upgrade)}
+	args := []string{"init", fmt.Sprintf("-upgrade=%t", options.Upgrade || options.InitArgs.Upgrade)}
 
 	// all of the deprecated arguments from Options that were passed to Init need to be declared here
 	// and retrieved from either Options or Options.InitArgs below
