@@ -48,32 +48,37 @@ type Options struct {
 	// map[string]interface{}{
 	//     "foo": map[string]interface{}{"bar": nil},
 	// }
-	Vars map[string]interface{}
+	Vars map[string]interface{} `tfarg:"-var"`
 
-	VarFiles                 []string               // The var file paths to pass to Terraform commands using -var-file option.
-	Targets                  []string               // The target resources to pass to the terraform command with -target
-	Lock                     bool                   // The lock option to pass to the terraform command with -lock
-	LockTimeout              string                 // The lock timeout option to pass to the terraform command with -lock-timeout
+	VarFiles                 []string               `tfarg:"-var-file"`       // The var file paths to pass to Terraform commands using -var-file option.
+	Targets                  []string               `tfarg:"-target"`         // The target resources to pass to the terraform command with -target
+	Lock                     bool                   `tfarg:"-lock,omitempty"` // The lock option to pass to the terraform command with -lock
+	LockTimeout              string                 `tfarg:"-lock-timeout"`   // The lock timeout option to pass to the terraform command with -lock-timeout
 	EnvVars                  map[string]string      // Environment variables to set when running Terraform
-	BackendConfig            map[string]interface{} // The vars to pass to the terraform init command for extra configuration for the backend
+	BackendConfig            map[string]interface{} `tfarg:"-backend-config"` // The vars to pass to the terraform init command for extra configuration for the backend
 	RetryableTerraformErrors map[string]string      // If Terraform apply fails with one of these (transient) errors, retry. The keys are a regexp to match against the error and the message is what to display to a user if that error is matched.
 	MaxRetries               int                    // Maximum number of times to retry errors matching RetryableTerraformErrors
 	TimeBetweenRetries       time.Duration          // The amount of time to wait between retries
-	Upgrade                  bool                   // Whether the -upgrade flag of the terraform init command should be set to true or not
-	Reconfigure              bool                   // Set the -reconfigure flag to the terraform init command
-	MigrateState             bool                   // Set the -migrate-state and -force-copy (suppress 'yes' answer prompt) flag to the terraform init command
-	NoColor                  bool                   // Whether the -no-color flag will be set for any Terraform command or not
+	Upgrade                  bool                   `tfarg:"-upgrade,omitempty"`                   // Whether the -upgrade flag of the terraform init command should be set to true or not
+	Reconfigure              bool                   `tfarg:"-reconfigure,omitempty"`               // Set the -reconfigure flag to the terraform init command
+	MigrateState             bool                   `tfarg:"-migrate-state -force-copy,omitempty"` // Set the -migrate-state and -force-copy (suppress 'yes' answer prompt) flag to the terraform init command
+	NoColor                  bool                   `tfarg:"-no-color,omitempty"`                  // Whether the -no-color flag will be set for any Terraform command or not
 	SshAgent                 *ssh.SshAgent          // Overrides local SSH agent with the given in-process agent
 	NoStderr                 bool                   // Disable stderr redirection
 	OutputMaxLineSize        int                    // The max size of one line in stdout and stderr (in bytes)
 	Logger                   *logger.Logger         // Set a non-default logger that should be used. See the logger package for more info.
 	Parallelism              int                    // Set the parallelism setting for Terraform
 	PlanFilePath             string                 // The path to output a plan file to (for the plan command) or read one from (for the apply command)
-	PluginDir                string                 // The path of downloaded plugins to pass to the terraform init command (-plugin-dir)
+	PluginDir                string                 `tfarg:"-plugin-dir"` // The path of downloaded plugins to pass to the terraform init command (-plugin-dir)
 	SetVarsAfterVarFiles     bool                   // Pass -var options after -var-file options to Terraform commands
 	ExtraCommandFlags        []string               // Additional terraform flags that aren't explicitly supported as fields of `Options` (yet). These are appended as-is to the calculated terraform command
-
-	InitArgs
+	AutoApprove              bool                   `tfarg:"-auto-approve"`                // whether or not -auto-approve should be set TODO: just for apply?
+	Refresh                  bool                   `tfarg:"-refresh,omittrue"`            // the -refresh argument
+	Input                    bool                   `tfarg:"-input"`                       // the -input argument - false 99.99% of the time, unless you write a test that provides input to terraform
+	PlanFileOut              string                 `tfarg:"-out"`                         // the `-out=/foo/bar.plan` argument to `terraform plan`
+	PlanDetailedExitCode     bool                   `tfarg:"-detailed-exitcode,omitempty"` // the -detailed-exitcode argument to `terraform plan`
+	OutputJSON               bool                   `tfarg:"-json,omitempty"`              // the `-json` argument to `terraform output`
+	// *InitArgs
 }
 
 // Clone makes a deep copy of most fields on the Options object and returns it.

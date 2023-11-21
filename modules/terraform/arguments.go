@@ -14,19 +14,7 @@ import (
 // string representation.
 type CommandArguments interface {
 	// UnmarshalArgs should be implemented by structs whose command argument fields are annotated by `tfarg`
-	UnmarshalArgs() (string, error)
-}
-
-// ExampleCommandArgs are command argument examples of different types of arguments from the existing commands
-type ExampleCommandArgs struct {
-	BackendConfig map[string]any `tfarg:"-backend-config"`                      // The vars to pass to the terraform init command for extra configuration for the backend
-	MigrateState  bool           `tfarg:"-migrate-state -force-copy,omitempty"` // Set the -migrate-state and -force-copy (suppress 'yes' answer prompt) flag to the terraform init command
-	PluginDir     string         `tfarg:"-plugin-dir"`                          // The path of downloaded plugins to pass to the terraform init command (-plugin-dir)
-	VarFiles      []string       `tfarg:"-var-file"`                            // The var file paths to pass to Terraform commands using -var-file option.
-	// reconfigure is also a bool type, but it's encoded slightly differently than MigrateState
-	Reconfigure bool `tfarg:"-reconfigure,omitempty"` // Set the -reconfigure flag to the terraform init command
-	// refresh is another odd bool case where the default is actually true, so when this is supplied as false we need to write `-refresh=false`
-	Refresh bool `tfarg:"-refresh,omittrue"`
+	MarshalTfArgs() (string, error)
 }
 
 // commandArgField is a struct that holds the information for each field of a CommandArguments struct
@@ -47,27 +35,27 @@ var (
 )
 
 // a function that parses structs with the tfarg tag and, based on the content of the tagged field and the tag, we generate a command line
-// TODO: any point in this being generic?
 // TODO: consider returning []string instead
-func MarshalTfArgs[T any](argStruct *T) (string, error) {
+func MarshalTfArgs(argStruct any) (string, error) {
 	// TODO: allow commands to define their own struct that can unmarshal itself to a "command line string"
-	// if args, hasCustomUnmarshalFunc := v.(CommandArguments); hasCustomUnmarshalFunc {
-	// 	return args.UnmarshalArgs()
-	// }
+	if args, hasCustomUnmarshalFunc := argStruct.(CommandArguments); hasCustomUnmarshalFunc {
+		return args.MarshalTfArgs()
+	}
 
 	// go through each field of `argStruct`, look if it has the tfarg struct tag, parse it based on type(f)
 	// limited set of supported types: these are already defined in format.go so we can just use those functions
-	fields := reflect.TypeOf(*argStruct)
+	fields := reflect.TypeOf(argStruct).Elem()
 	taggedFields := []*commandArgField{}
 	for i := 0; i < fields.NumField(); i++ {
 		field := fields.Field(i)
 
 		// "options" for how the field is encoded to a command string are supported, like "omitempty" for JSON encoding,
 		// can be appended to tags and separated by commas
-		fullTagString := strings.Split(field.Tag.Get("tfarg"), ",")
-		if len(fullTagString) == 0 {
+		tag := field.Tag.Get("tfarg")
+		if len(tag) == 0 {
 			continue
 		}
+		fullTagString := strings.Split(tag, ",")
 		tagValue := fullTagString[0]
 		caf := &commandArgField{
 			name:     field.Name,
@@ -91,7 +79,8 @@ func MarshalTfArgs[T any](argStruct *T) (string, error) {
 
 	var commandString []string
 	var err error
-	fieldValues := reflect.ValueOf(*argStruct)
+	// these "field" names are a nightmare
+	fieldValues := reflect.ValueOf(argStruct).Elem()
 	// TODO: is this a good idea?
 	// defer func() {
 	// 	if panicked := recover(); panicked != nil {
@@ -142,6 +131,20 @@ func MarshalTfArgs[T any](argStruct *T) (string, error) {
 			commandString = append(commandString, fmt.Sprintf("%s=%d", taggedField.tagValue, fieldValue.Int()))
 		case reflect.Float32:
 			commandString = append(commandString, fmt.Sprintf("%s=%f", taggedField.tagValue, fieldValue.Float()))
+		// try to allow nested "TfArg" structs
+		// TODO: this didn't work because those structs are a field of Options, and the are not themselves tagged - just their fields are
+		// case reflect.Struct:
+		// 	if argString, err := MarshalTfArgs(fieldValue.Interface()); err != nil {
+		// 		return "", errors.Wrap(err, fmt.Sprintf("couldn't marshal field %s", taggedField.name))
+		// 	} else {
+		// 		commandString = append(commandString, argString)
+		// 	}
+		// case reflect.Pointer:
+		// 	if argString, err := MarshalTfArgs(fieldValue.Elem().Interface()); err != nil {
+		// 		return "", errors.Wrap(err, fmt.Sprintf("couldn't marshal field %s", taggedField.name))
+		// 	} else {
+		// 		commandString = append(commandString, argString)
+		// 	}
 		default:
 			return "", errors.WithMessagef(ErrUnsupportedFieldType, "type: %s", taggedField.kind)
 		}

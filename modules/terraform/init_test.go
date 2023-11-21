@@ -34,32 +34,6 @@ func TestInitBackendConfig(t *testing.T) {
 	assert.FileExists(t, remoteStateFile)
 }
 
-func TestInitArgsBackendConfig(t *testing.T) {
-	t.Parallel()
-
-	stateDirectory := t.TempDir()
-
-	remoteStateFile := filepath.Join(stateDirectory, "backend.tfstate")
-
-	testFolder, err := files.CopyTerraformFolderToTemp("../../test/fixtures/terraform-backend", t.Name())
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	options := &Options{
-		TerraformDir: testFolder,
-		InitArgs: InitArgs{
-			BackendConfig: map[string]interface{}{
-				"path": remoteStateFile,
-			},
-		},
-	}
-
-	InitAndApply(t, options)
-
-	assert.FileExists(t, remoteStateFile)
-}
-
 func TestInitPluginDir(t *testing.T) {
 	t.Parallel()
 
