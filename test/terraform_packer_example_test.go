@@ -15,8 +15,8 @@ import (
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 )
 
-// This is a complicated, end-to-end integration test. It builds the AMI from examples/packer-docker-example,
-// deploys it using the Terraform code on examples/terraform-packer-example, and checks that the web server in the AMI
+// This is a complicated, end-to-end integration test. It builds the AMI from examples/packer/packer-docker-example,
+// deploys it using the Terraform code on examples/terraform/terraform-packer-example, and checks that the web server in the AMI
 // response to requests. The test is broken into "stages" so you can skip stages by setting environment variables (e.g.,
 // skip stage "build_ami" by setting the environment variable "SKIP_build_ami=true"), which speeds up iteration when
 // running this test over and over again locally.
@@ -24,7 +24,7 @@ func TestTerraformPackerExample(t *testing.T) {
 	t.Parallel()
 
 	// The folder where we have our Terraform code
-	workingDir := "../examples/terraform-packer-example"
+	workingDir := "../examples/terraform/terraform-packer-example"
 
 	// At the end of the test, delete the AMI
 	defer test_structure.RunTestStage(t, "cleanup_ami", func() {
@@ -71,7 +71,7 @@ func buildAMI(t *testing.T, awsRegion string, workingDir string) {
 
 	packerOptions := &packer.Options{
 		// The path to where the Packer template is located
-		Template: "../examples/packer-docker-example/build.pkr.hcl",
+		Template: "../examples/packer/packer-docker-example/build.pkr.hcl",
 
 		// Only build the AMI
 		Only: "amazon-ebs.ubuntu-ami",

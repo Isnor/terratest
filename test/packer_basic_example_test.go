@@ -26,7 +26,7 @@ var DefaultTimeBetweenPackerRetries = 15 * time.Second
 
 const DefaultMaxPackerRetries = 3
 
-// An example of how to test the Packer template in examples/packer-basic-example using Terratest.
+// An example of how to test the Packer template in examples/packer/packer-basic-example using Terratest.
 func TestPackerBasicExample(t *testing.T) {
 	t.Parallel()
 
@@ -39,7 +39,7 @@ func TestPackerBasicExample(t *testing.T) {
 	// website::tag::1::Read Packer's template and set AWS Region variable.
 	packerOptions := &packer.Options{
 		// The path to where the Packer template is located
-		Template: "../examples/packer-basic-example/build.pkr.hcl",
+		Template: "../examples/packer/packer-basic-example/build.pkr.hcl",
 
 		// Variables to pass to our Packer build using -var options
 		Vars: map[string]string{
@@ -81,7 +81,7 @@ func TestPackerBasicExample(t *testing.T) {
 	assert.True(t, amiIsPublic)
 }
 
-// An example of how to test the Packer template in examples/packer-basic-example using Terratest
+// An example of how to test the Packer template in examples/packer/packer-basic-example using Terratest
 // with the VarFiles option. This test generates a temporary *.json file containing the value
 // for the `aws_region` variable.
 func TestPackerBasicExampleWithVarFile(t *testing.T) {
@@ -107,7 +107,7 @@ func TestPackerBasicExampleWithVarFile(t *testing.T) {
 
 	packerOptions := &packer.Options{
 		// The path to where the Packer template is located
-		Template: "../examples/packer-basic-example/build.pkr.hcl",
+		Template: "../examples/packer/packer-basic-example/build.pkr.hcl",
 
 		// Variable file to to pass to our Packer build using -var-file option
 		VarFiles: []string{
@@ -116,7 +116,7 @@ func TestPackerBasicExampleWithVarFile(t *testing.T) {
 
 		// Environment settings to avoid plugin conflicts
 		Env: map[string]string{
-			"PACKER_PLUGIN_PATH": "../examples/packer-basic-example/.packer.d/plugins",
+			"PACKER_PLUGIN_PATH": "../examples/packer/packer-basic-example/.packer.d/plugins",
 		},
 
 		// Only build the AWS AMI
@@ -165,7 +165,7 @@ func TestPackerMultipleConcurrentAmis(t *testing.T) {
 
 		packerOptions := &packer.Options{
 			// The path to where the Packer template is located
-			Template: "../examples/packer-basic-example/build.pkr.hcl",
+			Template: "../examples/packer/packer-basic-example/build.pkr.hcl",
 
 			// Variables to pass to our Packer build using -var options
 			Vars: map[string]string{

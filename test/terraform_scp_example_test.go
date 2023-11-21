@@ -20,7 +20,7 @@ import (
 func TestTerraformScpExample(t *testing.T) {
 	t.Parallel()
 
-	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/terraform-asg-scp-example")
+	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/terraform/terraform-asg-scp-example")
 
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created
 	defer test_structure.RunTestStage(t, "teardown", func() {

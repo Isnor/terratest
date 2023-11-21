@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// An example of how to test the Terraform module in examples/terraform-aws-rds-example using Terratest.
+// An example of how to test the Terraform module in examples/terraform/terraform-aws-rds-example using Terratest.
 func TestTerraformAwsRdsExample(t *testing.T) {
 	t.Parallel()
 
@@ -31,7 +31,7 @@ func TestTerraformAwsRdsExample(t *testing.T) {
 	// terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "../examples/terraform-aws-rds-example",
+		TerraformDir: "../examples/terraform/terraform-aws-rds-example",
 
 		// Variables to pass to our Terraform code using -var options
 		// "username" and "password" should not be passed from here in a production scenario.

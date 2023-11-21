@@ -30,7 +30,7 @@ var ZonesThatSupportF1Micro = []string{"us-central1-a", "us-east1-b", "us-west1-
 
 const DefaultMaxPackerRetries = 3
 
-// An example of how to test the Packer template in examples/packer-basic-example using Terratest.
+// An example of how to test the Packer template in examples/packer/packer-basic-example using Terratest.
 func TestPackerGCPBasicExample(t *testing.T) {
 	t.Parallel()
 
@@ -42,7 +42,7 @@ func TestPackerGCPBasicExample(t *testing.T) {
 
 	packerOptions := &packer.Options{
 		// The path to where the Packer template is located
-		Template: "../../examples/packer-basic-example/build-gcp.pkr.hcl",
+		Template: "../../examples/packer/packer-basic-example/build-gcp.pkr.hcl",
 
 		// Variables to pass to our Packer build using -var options
 		Vars: map[string]string{

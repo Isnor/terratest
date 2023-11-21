@@ -18,7 +18,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// An example of how to test the Terraform module in examples/terraform-redeploy-example using Terratest. We deploy the
+// An example of how to test the Terraform module in examples/terraform/terraform-redeploy-example using Terratest. We deploy the
 // Terraform code, check that the load balancer returns the expected response, redeploy the code, and check that the
 // entire time during the redeploy, the load balancer continues returning a valid response and never returns an error
 // (i.e., we validate that zero-downtime deployment works).
@@ -30,7 +30,7 @@ func TestTerraformRedeployExample(t *testing.T) {
 	t.Parallel()
 
 	// The folder where we have our Terraform code
-	workingDir := "../examples/terraform-redeploy-example"
+	workingDir := "../examples/terraform/terraform-redeploy-example"
 
 	// Pick a random AWS region to test in. This helps ensure your code works in all regions.
 	test_structure.RunTestStage(t, "pick_region", func() {

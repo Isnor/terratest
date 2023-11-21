@@ -11,7 +11,7 @@ func TestTerragruntExample(t *testing.T) {
 	// website::tag::3:: Construct the terraform options with default retryable errors to handle the most common retryable errors in terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		// website::tag::1:: Set the path to the Terragrunt module that will be tested.
-		TerraformDir: "../examples/terragrunt-example",
+		TerraformDir: "../examples/terragrunt/terragrunt-example",
 		// website::tag::2:: Set the terraform binary path to terragrunt so that terratest uses terragrunt instead of terraform. You must ensure that you have terragrunt downloaded and available in your PATH.
 		TerraformBinary: "terragrunt",
 	})

@@ -12,7 +12,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 )
 
-// An example of how to test the Terraform module in examples/terraform-http-example using Terratest.
+// An example of how to test the Terraform module in examples/terraform/terraform-http-example using Terratest.
 func TestTerraformHttpExample(t *testing.T) {
 	t.Parallel()
 
@@ -37,7 +37,7 @@ func TestTerraformHttpExample(t *testing.T) {
 	// terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "../examples/terraform-http-example",
+		TerraformDir: "../examples/terraform/terraform-http-example",
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{

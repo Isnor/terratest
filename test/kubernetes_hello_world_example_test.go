@@ -18,7 +18,7 @@ func TestKubernetesHelloWorldExample(t *testing.T) {
 	t.Parallel()
 
 	// website::tag::1:: Path to the Kubernetes resource config we will test.
-	kubeResourcePath := "../examples/kubernetes-hello-world-example/hello-world-deployment.yml"
+	kubeResourcePath := "../examples/kubernetes/kubernetes-hello-world-example/hello-world-deployment.yml"
 
 	// website::tag::2:: Setup the kubectl config and context.
 	options := k8s.NewKubectlOptions("", "", "default")

@@ -15,12 +15,12 @@ func TestOPAEvalTerraformModulePassesCheck(t *testing.T) {
 
 	tfOpts := &terraform.Options{
 		// website::tag::1:: Set the path to the Terraform code that will be tested.
-		TerraformDir: "../examples/terraform-opa-example/pass",
+		TerraformDir: "../examples/terraform/terraform-opa-example/pass",
 	}
 
 	opaOpts := &opa.EvalOptions{
 		// website::tag::2:: Set the path to the OPA policy code that should be used.
-		RulePath: "../examples/terraform-opa-example/policy/enforce_source.rego",
+		RulePath: "../examples/terraform/terraform-opa-example/policy/enforce_source.rego",
 
 		// website::tag::3:: Run OPA in fail mode so that it will exit with non-zero exit code when the result query is undefined.
 		FailMode: opa.FailUndefined,
@@ -37,8 +37,8 @@ func TestOPAEvalTerraformModuleFailsCheck(t *testing.T) {
 	t.Parallel()
 
 	// website::tag::5:: Configure in a similar fashion to the above test, but run against the `fail` example.
-	policyPath := "../examples/terraform-opa-example/policy/enforce_source.rego"
-	tfOpts := &terraform.Options{TerraformDir: "../examples/terraform-opa-example/fail"}
+	policyPath := "../examples/terraform/terraform-opa-example/policy/enforce_source.rego"
+	tfOpts := &terraform.Options{TerraformDir: "../examples/terraform/terraform-opa-example/fail"}
 	opaOpts := &opa.EvalOptions{
 		FailMode: opa.FailUndefined,
 		RulePath: policyPath,
@@ -55,10 +55,10 @@ func TestOPAEvalTerraformModuleRemotePolicy(t *testing.T) {
 	t.Parallel()
 
 	tfOpts := &terraform.Options{
-		TerraformDir: "../examples/terraform-opa-example/pass",
+		TerraformDir: "../examples/terraform/terraform-opa-example/pass",
 	}
 	opaOpts := &opa.EvalOptions{
-		RulePath: "git::https://github.com/gruntwork-io/terratest.git//examples/terraform-opa-example/policy/enforce_source.rego?ref=master",
+		RulePath: "git::https://github.com/gruntwork-io/terratest.git//examples/terraform/terraform-opa-example/policy/enforce_source.rego?ref=master",
 		FailMode: opa.FailUndefined,
 	}
 	terraform.OPAEval(t, tfOpts, opaOpts, "data.enforce_source.allow")

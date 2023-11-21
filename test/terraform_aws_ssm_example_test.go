@@ -17,7 +17,7 @@ func TestTerraformAwsSsmExample(t *testing.T) {
 	instanceType := aws.GetRecommendedInstanceType(t, region, []string{"t2.micro, t3.micro", "t2.small", "t3.small"})
 
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: "../examples/terraform-aws-ssm-example",
+		TerraformDir: "../examples/terraform/terraform-aws-ssm-example",
 		Vars: map[string]interface{}{
 			"region":        region,
 			"instance_type": instanceType,

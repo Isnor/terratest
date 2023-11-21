@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// An example of how to test the Terraform module in examples/terraform-aws-dynamodb-example using Terratest.
+// An example of how to test the Terraform module in examples/terraform/terraform-aws-dynamodb-example using Terratest.
 func TestTerraformAwsDynamoDBExample(t *testing.T) {
 	t.Parallel()
 
@@ -34,7 +34,7 @@ func TestTerraformAwsDynamoDBExample(t *testing.T) {
 	// terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "../examples/terraform-aws-dynamodb-example",
+		TerraformDir: "../examples/terraform/terraform-aws-dynamodb-example",
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{

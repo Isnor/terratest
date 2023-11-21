@@ -14,14 +14,14 @@ import (
 	test_structure "github.com/gruntwork-io/terratest/modules/test-structure"
 )
 
-// An example of how to test the Terraform module in examples/terraform-ssh-password-example using Terratest. The test
+// An example of how to test the Terraform module in examples/terraform/terraform-ssh-password-example using Terratest. The test
 // also shows an example of how to break a test down into "stages" so you can skip stages by setting environment
 // variables (e.g., skip stage "teardown" by setting the environment variable "SKIP_teardown=true"), which speeds up
 // iteration when running this test over and over again locally.
 func TestTerraformSshPasswordExample(t *testing.T) {
 	t.Parallel()
 
-	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/terraform-ssh-password-example")
+	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/terraform/terraform-ssh-password-example")
 
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created.
 	defer test_structure.RunTestStage(t, "teardown", func() {

@@ -8,7 +8,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/packer"
 )
 
-// An example of how to test the Packer template in examples/packer-basic-example using Terratest.
+// An example of how to test the Packer template in examples/packer/packer-basic-example using Terratest.
 func TestPackerOciExample(t *testing.T) {
 	t.Parallel()
 
@@ -26,7 +26,7 @@ func TestPackerOciExample(t *testing.T) {
 
 	packerOptions := &packer.Options{
 		// The path to where the Packer template is located
-		Template: "../examples/packer-basic-example/build.pkr.hcl",
+		Template: "../examples/packer/packer-basic-example/build.pkr.hcl",
 
 		// Variables to pass to our Packer build using -var options
 		Vars: map[string]string{

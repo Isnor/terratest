@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// An example of how to test the Terraform module in examples/terraform-backend-example using Terratest.
+// An example of how to test the Terraform module in examples/terraform/terraform-backend-example using Terratest.
 func TestTerraformBackendExample(t *testing.T) {
 	t.Parallel()
 
@@ -28,7 +28,7 @@ func TestTerraformBackendExample(t *testing.T) {
 
 	// Deploy the module, configuring it to use the S3 bucket as an S3 backend
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: "../examples/terraform-backend-example",
+		TerraformDir: "../examples/terraform/terraform-backend-example",
 		Vars: map[string]interface{}{
 			"foo": data,
 		},

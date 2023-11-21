@@ -15,7 +15,7 @@ func TestDockerHelloWorldExample(t *testing.T) {
 	}
 
 	// website::tag::2:: Build the Docker image.
-	docker.Build(t, "../examples/docker-hello-world-example", buildOptions)
+	docker.Build(t, "../examples/docker/docker-hello-world-example", buildOptions)
 
 	// website::tag::3:: Run the Docker image, read the text file from it, and make sure it contains the expected output.
 	opts := &docker.RunOptions{Command: []string{"cat", "/test.txt"}}

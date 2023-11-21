@@ -20,7 +20,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/k8s"
 )
 
-// An example of how to test the Kubernetes resource config in examples/kubernetes-rbac-example using Terratest,
+// An example of how to test the Kubernetes resource config in examples/kubernetes/kubernetes-rbac-example using Terratest,
 // including whether or not the permissions are set correctly.
 func TestKubernetesRBACExample(t *testing.T) {
 	t.Parallel()
@@ -30,7 +30,7 @@ func TestKubernetesRBACExample(t *testing.T) {
 	const namespaceName = "terratest-rbac-example-namespace"
 
 	// Path to the Kubernetes resource config we will test
-	kubeResourcePath, err := filepath.Abs("../examples/kubernetes-rbac-example/namespace-service-account.yml")
+	kubeResourcePath, err := filepath.Abs("../examples/kubernetes/kubernetes-rbac-example/namespace-service-account.yml")
 	require.NoError(t, err)
 
 	// Setup the kubectl config and context. Here we choose to create a new one because we will be manipulating the

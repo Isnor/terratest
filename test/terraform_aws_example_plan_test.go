@@ -13,13 +13,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// An example of how to test the Terraform module in examples/terraform-aws-example using Terratest.
+// An example of how to test the Terraform module in examples/terraform/terraform-aws-example using Terratest.
 func TestTerraformAwsExamplePlan(t *testing.T) {
 	t.Parallel()
 
 	// Make a copy of the terraform module to a temporary directory. This allows running multiple tests in parallel
 	// against the same terraform module.
-	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/terraform-aws-example")
+	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/terraform/terraform-aws-example")
 
 	// Give this EC2 Instance a unique ID for a name tag so we can distinguish it from any other EC2 Instance running
 	// in your AWS account
@@ -37,7 +37,7 @@ func TestTerraformAwsExamplePlan(t *testing.T) {
 	planFilePath := filepath.Join(exampleFolder, "plan.out")
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "../examples/terraform-aws-example",
+		TerraformDir: "../examples/terraform/terraform-aws-example",
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{

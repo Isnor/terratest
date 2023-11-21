@@ -12,13 +12,13 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// An example of how to test the Terraform module in examples/terraform-aws-lambda-example using Terratest.
+// An example of how to test the Terraform module in examples/terraform/terraform-aws-lambda-example using Terratest.
 func TestTerraformAwsLambdaExample(t *testing.T) {
 	t.Parallel()
 
 	// Make a copy of the terraform module to a temporary directory. This allows running multiple tests in parallel
 	// against the same terraform module.
-	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/terraform-aws-lambda-example")
+	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/terraform/terraform-aws-lambda-example")
 
 	// Give this lambda function a unique ID for a name so we can distinguish it from any other lambdas
 	// in your AWS account
@@ -64,14 +64,14 @@ func TestTerraformAwsLambdaExample(t *testing.T) {
 }
 
 // Annother example of how to test the Terraform module in
-// examples/terraform-aws-lambda-example using Terratest, this time with
+// examples/terraform/terraform-aws-lambda-example using Terratest, this time with
 // the aws.InvokeFunctionWithParams.
 func TestTerraformAwsLambdaWithParamsExample(t *testing.T) {
 	t.Parallel()
 
 	// Make a copy of the terraform module to a temporary directory. This allows running multiple tests in parallel
 	// against the same terraform module.
-	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/terraform-aws-lambda-example")
+	exampleFolder := test_structure.CopyTerraformFolderToTemp(t, "../", "examples/terraform/terraform-aws-lambda-example")
 
 	// Give this lambda function a unique ID for a name so we can distinguish it from any other lambdas
 	// in your AWS account

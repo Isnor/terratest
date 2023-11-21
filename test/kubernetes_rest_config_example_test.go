@@ -27,7 +27,7 @@ func TestKubernetesRestConfigBasicExampleConfig(t *testing.T) {
 	t.Parallel()
 
 	// website::tag::1::Path to the Kubernetes resource config we will test
-	kubeResourcePath, err := filepath.Abs("../examples/kubernetes-basic-example/nginx-deployment.yml")
+	kubeResourcePath, err := filepath.Abs("../examples/kubernetes/kubernetes-basic-example/nginx-deployment.yml")
 	require.NoError(t, err)
 
 	// To ensure we can reuse the resource config on the same cluster to test different scenarios, we setup a unique

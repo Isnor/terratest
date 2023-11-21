@@ -21,7 +21,7 @@ import (
 func TestTerraformRemoteExecExample(t *testing.T) {
 	t.Parallel()
 
-	terraformDirectory := "../examples/terraform-remote-exec-example"
+	terraformDirectory := "../examples/terraform/terraform-remote-exec-example"
 
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created
 	defer test_structure.RunTestStage(t, "teardown", func() {

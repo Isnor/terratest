@@ -37,7 +37,7 @@ func TestHelmBasicExampleTemplateRenderedDeployment(t *testing.T) {
 	t.Parallel()
 
 	// Path to the helm chart we will test
-	helmChartPath, err := filepath.Abs("../examples/helm-basic-example")
+	helmChartPath, err := filepath.Abs("../examples/helm/helm-basic-example")
 	releaseName := "helm-basic"
 	require.NoError(t, err)
 
@@ -84,7 +84,7 @@ func TestHelmBasicExampleTemplateRequiredTemplateArgs(t *testing.T) {
 	t.Parallel()
 
 	// Path to the helm chart we will test
-	helmChartPath, err := filepath.Abs("../examples/helm-basic-example")
+	helmChartPath, err := filepath.Abs("../examples/helm/helm-basic-example")
 	releaseName := "helm-basic"
 	require.NoError(t, err)
 

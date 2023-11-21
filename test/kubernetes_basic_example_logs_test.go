@@ -27,7 +27,7 @@ func setupLogsTest(t *testing.T) (*k8s.KubectlOptions, v1.Pod) {
 	t.Parallel()
 
 	// Path to the Kubernetes resource config we will test
-	kubeResourcePath, err := filepath.Abs("../examples/kubernetes-basic-example/podinfo-daemonset.yml")
+	kubeResourcePath, err := filepath.Abs("../examples/kubernetes/kubernetes-basic-examplepodinfo-daemonset.yml")
 	require.NoError(t, err)
 
 	// To ensure we can reuse the resource config on the same cluster to test different scenarios, we setup a unique

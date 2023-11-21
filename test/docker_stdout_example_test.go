@@ -9,7 +9,7 @@ import (
 
 func TestDockerComposeStdoutExample(t *testing.T) {
 	t.Parallel()
-	dockerComposeFile := "../examples/docker-compose-stdout-example/docker-compose.yml"
+	dockerComposeFile := "../examples/docker/docker-compose-stdout-example/docker-compose.yml"
 
 	// Run the build step first so that the build output doesn't go to stdout during the compose step.
 	docker.RunDockerCompose(

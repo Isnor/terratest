@@ -30,7 +30,7 @@ func TestHelmLogsRedirect(t *testing.T) {
 	t.Parallel()
 
 	// Path to the helm chart we will test
-	helmChartPath, err := filepath.Abs("../examples/helm-basic-example")
+	helmChartPath, err := filepath.Abs("../examples/helm/helm-basic-example")
 	require.NoError(t, err)
 
 	// Namespace to deploy helm chart

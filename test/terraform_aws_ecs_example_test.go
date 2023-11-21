@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// An example of how to test the Terraform module in examples/terraform-aws-ecs-example using Terratest.
+// An example of how to test the Terraform module in examples/terraform/terraform-aws-ecs-example using Terratest.
 func TestTerraformAwsEcsExample(t *testing.T) {
 	t.Parallel()
 
@@ -26,7 +26,7 @@ func TestTerraformAwsEcsExample(t *testing.T) {
 	// terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "../examples/terraform-aws-ecs-example",
+		TerraformDir: "../examples/terraform/terraform-aws-ecs-example",
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{

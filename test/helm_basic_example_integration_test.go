@@ -30,7 +30,7 @@ func TestHelmBasicExampleDeployment(t *testing.T) {
 	t.Parallel()
 
 	// Path to the helm chart we will test
-	helmChartPath, err := filepath.Abs("../examples/helm-basic-example")
+	helmChartPath, err := filepath.Abs("../examples/helm/helm-basic-example")
 	require.NoError(t, err)
 
 	// To ensure we can reuse the resource config on the same cluster to test different scenarios, we setup a unique

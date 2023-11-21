@@ -13,7 +13,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/random"
 )
 
-// An example of how to test the Packer template in examples/packer-docker-example completely locally using Terratest
+// An example of how to test the Packer template in examples/packer/packer-docker-example completely locally using Terratest
 // and Docker.
 func TestPackerDockerExampleLocal(t *testing.T) {
 	t.Parallel()
@@ -21,7 +21,7 @@ func TestPackerDockerExampleLocal(t *testing.T) {
 	// website::tag::1::Configure Packer to build Docker image.
 	packerOptions := &packer.Options{
 		// The path to where the Packer template is located
-		Template: "../examples/packer-docker-example/build.pkr.hcl",
+		Template: "../examples/packer/packer-docker-example/build.pkr.hcl",
 
 		// Only build the Docker image for local testing
 		Only: "docker.ubuntu-docker",
@@ -41,7 +41,7 @@ func TestPackerDockerExampleLocal(t *testing.T) {
 	dockerOptions := &docker.Options{
 		// website::tag::3::Set path to 'docker-compose.yml' and environment variables to run Docker image.
 		// Directory where docker-compose.yml lives
-		WorkingDir: "../examples/packer-docker-example",
+		WorkingDir: "../examples/packer/packer-docker-example",
 
 		// Configure the port the web app will listen on and the text it will return using environment variables
 		EnvVars: map[string]string{

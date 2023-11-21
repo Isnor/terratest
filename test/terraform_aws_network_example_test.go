@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// An example of how to test the Terraform module in examples/terraform-aws-network-example using Terratest.
+// An example of how to test the Terraform module in examples/terraform/terraform-aws-network-example using Terratest.
 func TestTerraformAwsNetworkExample(t *testing.T) {
 	t.Parallel()
 
@@ -25,7 +25,7 @@ func TestTerraformAwsNetworkExample(t *testing.T) {
 	// terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "../examples/terraform-aws-network-example",
+		TerraformDir: "../examples/terraform/terraform-aws-network-example",
 
 		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{

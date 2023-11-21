@@ -21,7 +21,7 @@ func TestWindowsInstance(t *testing.T) {
 	//os.Setenv("SKIP_cleanup", "true")
 
 	workingDir := filepath.Join(".", "stages", t.Name())
-	testBasePath := test_structure.CopyTerraformFolderToTemp(t, "..", "examples/terraform-aws-ec2-windows-example")
+	testBasePath := test_structure.CopyTerraformFolderToTemp(t, "..", "examples/terraform/terraform-aws-ec2-windows-example")
 
 	test_structure.RunTestStage(t, "setup", func() {
 		uniqueID := random.UniqueId()
